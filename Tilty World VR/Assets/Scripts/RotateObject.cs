@@ -10,10 +10,13 @@ public class RotateObject : MonoBehaviour {
     public GameObject ObjectToRotate;
     public short DegreesPerSecond = 3;
 
+    private DateTime _startTime;
+
     private ItsAlmostAStack<GameObject> _rotateAround = new ItsAlmostAStack<GameObject>();
 
 	// Use this for initialization
 	void Start () {
+        _startTime = DateTime.Now;
         var o = CameraRig.GetComponentsInChildren<VRTK_InteractGrab>(true);
         _rotateAround.Push(CameraRig);
         foreach (var item in o)
@@ -35,8 +38,11 @@ public class RotateObject : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        var rotateAround = _rotateAround.Peek();
-        ObjectToRotate.transform.RotateAround(rotateAround.transform.position, Vector3.back, DegreesPerSecond * Time.deltaTime);
+        if (_startTime.AddSeconds(10) < DateTime.Now)
+        {
+            var rotateAround = _rotateAround.Peek();
+            ObjectToRotate.transform.RotateAround(rotateAround.transform.position, Vector3.back, DegreesPerSecond * Time.deltaTime);
+        }
 	}
 }
 
