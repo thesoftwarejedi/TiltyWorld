@@ -9,6 +9,7 @@ public class RotateObject : MonoBehaviour {
     public GameObject CameraRig;
     public GameObject ObjectToRotate;
     public short DegreesPerSecond = 3;
+    public bool Active = false;
 
     private DateTime _startTime;
 
@@ -38,7 +39,7 @@ public class RotateObject : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if (_startTime.AddSeconds(10) < DateTime.Now)
+        if (Active)
         {
             var rotateAround = _rotateAround.Peek();
             ObjectToRotate.transform.RotateAround(rotateAround.transform.position, Vector3.back, DegreesPerSecond * Time.deltaTime);
